@@ -1,12 +1,30 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NgFor, NgIf, CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [CommonModule, FormsModule, NgFor, NgIf],  // Ось тут головне!
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'AngularApp';
+  tasks = [
+    { title: 'Task 1', deadline: '2024-12-31', priority: 'High' },
+    { title: 'Task 2', deadline: '2024-12-25', priority: 'Medium' }
+  ];
+  
+  newTask = { title: '', deadline: '', priority: 'Medium' };
+
+  addTask() {
+    if (this.newTask.title && this.newTask.deadline) {
+      this.tasks.push({ ...this.newTask });
+      this.newTask = { title: '', deadline: '', priority: 'Medium' };
+    }
+  }
+
+  removeTask(task: any) {
+    this.tasks = this.tasks.filter(t => t !== task);
+  }
 }
