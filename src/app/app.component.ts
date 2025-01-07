@@ -1,21 +1,41 @@
 import { Component } from '@angular/core';
-import { NgFor, NgIf, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
+interface Task {
+  title: string;
+  deadline: string;
+  priority: string;
+}
+
+interface LoadedTask {
+  id: number;
+  todo: string;
+  completed: boolean;
+  userId: number;
+}
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgFor, NgIf],  // Ось тут головне!
+  imports: [CommonModule, FormsModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  tasks = [
+  tasks: Task[] = [
     { title: 'Task 1', deadline: '2024-12-31', priority: 'High' },
     { title: 'Task 2', deadline: '2024-12-25', priority: 'Medium' }
   ];
-  
-  newTask = { title: '', deadline: '', priority: 'Medium' };
+
+  newTask: Task = { title: '', deadline: '', priority: 'Medium' };
+  loadedTasks: LoadedTask[] = [];
+  isLoading: boolean = false;
+  error: string | null = null;
+
+  constructor() {
+    this.fetchTasks();
+  }
 
   addTask() {
     if (this.newTask.title && this.newTask.deadline) {
@@ -24,7 +44,20 @@ export class AppComponent {
     }
   }
 
-  removeTask(task: any) {
+  removeTask(task: Task) {
     this.tasks = this.tasks.filter(t => t !== task);
+  }
+
+  fetchTasks() {
+    this.isLoading = true;
+    this.error = null;
+    fetch('https://dummyjson.com/todos')
+      .then(res => res.json())
+      .then(data => {
+        this.loadedTasks = data.todos;
+        console.log('Завантажені задачі:', this.loadedTasks);
+      })
+      .catch(err => this.error = `Помилка завантаження задач: ${err.message}` )
+      .finally(() => this.isLoading = false);
   }
 }
