@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card'; // Імпорт Angular Material Card
 
 interface Task {
   title: string;
@@ -18,7 +19,7 @@ interface LoadedTask {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatCardModule], // Додано MatCardModule
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -32,6 +33,10 @@ export class AppComponent {
   loadedTasks: LoadedTask[] = [];
   isLoading: boolean = false;
   error: string | null = null;
+
+  longText = `Простий додаток для керування завданнями. 
+  Додавайте свої задачі та переглядайте 
+  демонстраційні приклади з dummyjson.com.`; // Текст для картки
 
   constructor() {
     this.fetchTasks();

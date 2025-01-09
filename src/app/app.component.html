@@ -25,7 +25,7 @@
     </li>
   </ul>
 
-  <h2>Loaded Tasks</h2>
+  <h2>Loaded Tasks (Example)</h2>
   <div *ngIf="isLoading">Loading...</div>
   <div *ngIf="error">Error: {{ error }}</div>
   <ul *ngIf="!isLoading && !error">
@@ -34,4 +34,17 @@
       <span *ngIf="loadedTask.completed" class="completed">(Completed)</span>
     </li>
   </ul>
-</div>
+
+  <!-- Angular Material Card -->
+  <h2>Card</h2>
+  <mat-card class="example-card" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Інструкція</mat-card-title>
+      <mat-card-subtitle></mat-card-subtitle> <!-- Прибрали текст "Extra large" -->
+      <img mat-card-xl-image src="https://imageio.forbes.com/specials-images/dam/imageserve/1092571024/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds">
+    </mat-card-header>
+    <mat-card-content>
+      {{ longText }}
+    </mat-card-content>
+  </mat-card>
+  
